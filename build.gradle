@@ -36,10 +36,10 @@ tasks.named('test') {
 }
 
 test {
-	finalizedBy jacocoTestReport // report is always generated after tests run
+	finalizedBy jacocoTestReport
 }
 jacocoTestReport {
-	dependsOn test // tests are required to run before generating the report
+	dependsOn test
 }
 
 jacocoTestReport {
@@ -64,8 +64,8 @@ jacocoTestReport {
 }
 sonarqube {
 	properties {
-		property 'sonar.projectName', 'hcl-banking-gateway'
-		property 'sonar.projectKey', 'hcl-banking-gateway'
+		property 'sonar.projectName', 'az-bookstore-service'
+		property 'sonar.projectKey', 'az-bookstore-service'
 		property 'sonar.host.url', 'http://localhost:9000'
 		property "sonar.exclusions", "**/com/az/bookstore/dto/**, **/com/az/bookstore/entity/**, **/com/az/bookstore/constant/**, **/com/az/bookstore/config/**, **/com/az/bookstore/exception/**, **/com/az/bookstore/repository/**, **/com/az/bookstore/AzBookstoreApplication.java"
 		property "sonar.issue.ignore.multicriteria", "e1"

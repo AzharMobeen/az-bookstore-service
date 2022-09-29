@@ -43,7 +43,7 @@ public class PromotionIntegrationServiceImpl implements PromotionIntegrationServ
                 .filter(promotion -> promotion.getPromotionCode().equals(promotionCode))
                 .findFirst().orElseThrow(() -> new CustomRuntimeException("Invalid PromotionCode",
                         "Provide PromotionCod is invalid", HttpStatus.BAD_REQUEST));
-        log.info(" response {}", response);
+        log.info("response {}", response);
         return response;
     }
 }

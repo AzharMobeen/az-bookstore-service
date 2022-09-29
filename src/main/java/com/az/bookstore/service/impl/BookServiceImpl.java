@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
         if(StringUtils.hasText(promotionCode)){
             promotion = promotionIntegrationService.fetchPromotionByPromotionCode(promotionCode);
         }
-        return applyPromotion(book, promotion);
+        return promotion == null ? book.getPrice() : applyPromotion(book, promotion);
     }
 
     private Book fetchBookByBookId(Long bookId) {
@@ -104,7 +104,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private BigDecimal applyPromotion(Book book, Promotion promotion) {
-        if(promotion != null && promotion.getType().equals(book.getType())){
+        if(promotion.getType().equals(book.getType())){
            BigDecimal discountedPrice =  BigDecimal.valueOf(promotion.getDiscount())
                     .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).multiply(book.getPrice());
            return book.getPrice().subtract(discountedPrice);
