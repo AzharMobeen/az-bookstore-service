@@ -1,6 +1,5 @@
 package com.az.bookstore.config;
 
-import com.az.bookstore.component.HeaderInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -1,4 +1,4 @@
-package com.az.bookstore.component;
+package com.az.bookstore.config;
 
 import com.az.bookstore.exception.CustomRuntimeException;
 import lombok.extern.slf4j.Slf4j;
