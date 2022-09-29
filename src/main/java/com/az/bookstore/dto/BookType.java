@@ -9,11 +9,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BookType {
 
-    CRIME("Crime"),
-    FICTION("Fiction"),
-    POETRY("Poetry"),
-    COMIC("Comic");
-
+    CRIME("CRIME"),
+    FICTION("FICTION"),
+    POETRY("POETRY"),
+    COMIC("COMIC");
     private final String type;
 
     @Override

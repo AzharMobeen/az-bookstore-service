@@ -16,5 +16,7 @@ public class Constants {
     public static final String BOOK_URI = "/books";
 
     public static final String BOOK_NAME_UNIQUE_CONSTRAINT = "BOOK_NAME_UNIQUE_CONSTRAINT";
-    public static final String BOOK_NAME_UNIQUE_CONSTRAINT_MSG = "Book name already exist in the store";
+    public static final String BOOK_ISBN_UNIQUE_CONSTRAINT = "BOOK_ISBN_UNIQUE_CONSTRAINT";
+    public static final String BOOK_NAME_UNIQUE_CONSTRAINT_MSG = "Book name already exist";
+    public static final String BOOK_ISBN_UNIQUE_CONSTRAINT_MSG = "Book ISBN already exist";
 }

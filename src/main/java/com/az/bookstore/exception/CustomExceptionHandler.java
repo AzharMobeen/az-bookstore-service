@@ -5,6 +5,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,8 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.az.bookstore.constant.Constants.BOOK_NAME_UNIQUE_CONSTRAINT;
-import static com.az.bookstore.constant.Constants.BOOK_NAME_UNIQUE_CONSTRAINT_MSG;
+import static com.az.bookstore.constant.Constants.*;
 
 /**
  * @author Azhar Mobeen
@@ -51,7 +51,10 @@ public class CustomExceptionHandler {
         String message = HttpStatus.CONFLICT.getReasonPhrase();
         if(exception != null && exception.getConstraintName().contains(BOOK_NAME_UNIQUE_CONSTRAINT)){
             message = BOOK_NAME_UNIQUE_CONSTRAINT_MSG;
-            description = "Provided Book name already exist";
+            description = "Provided Book name already save in DB, please add unique book name";
+        } else if(exception != null && exception.getConstraintName().contains(BOOK_ISBN_UNIQUE_CONSTRAINT)){
+            message = BOOK_ISBN_UNIQUE_CONSTRAINT_MSG;
+            description = "Provided Book ISBN already assign to an other book, please add unique ISBN";
         }
         ErrorMessage errorMessage = buildErrorMessage(message, request, description);
         return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
@@ -69,6 +72,15 @@ public class CustomExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessages);
     }
 
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex,
+                                                                              WebRequest request) {
+
+        ErrorMessage errorMessage = buildErrorMessage("Invalid request", request,
+                ex.getMessage());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleValidationExceptions(EntityNotFoundException ex, WebRequest request) {
 

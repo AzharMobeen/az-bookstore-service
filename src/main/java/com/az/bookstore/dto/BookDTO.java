@@ -25,8 +25,8 @@ public class BookDTO {
     private BigDecimal price;
     @NotEmpty(message = "Book author is required")
     private String author;
-    @NotEmpty(message = "Book type is required")
-    private String type;
+    @NotNull(message = "Predefine book type is required")
+    private BookType type;
     @NotEmpty(message = "Book ISBN is required")
     private String isbn;
 }

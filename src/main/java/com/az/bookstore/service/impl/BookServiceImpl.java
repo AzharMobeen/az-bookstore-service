@@ -72,12 +72,19 @@ public class BookServiceImpl implements BookService {
     public CheckOutResponse checkOutBooks(CheckOutRequest request) {
         log.info("checkOutBooks method called with request {}", request);
         List<Book> bookList = fetchBooksByBookIds(request);
-        BigDecimal totalPrice = bookList.stream().map(book -> buildDiscountedPrice(book, request.getPromotionCode()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
         CheckOutResponse response = new CheckOutResponse();
-        response.setTotalPrice(totalPrice);
+        buildCheckOutResponse(request, bookList, response);
         log.info("checkOutBooks method response {}", response);
         return response;
+    }
+
+    private void buildCheckOutResponse(CheckOutRequest request, List<Book> bookList, CheckOutResponse response) {
+        BigDecimal discountedPrice = bookList.stream()
+                .map(book -> buildDiscountedPrice(book, request.getPromotionCode()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal actualPrice = bookList.stream().map(Book ::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        response.setDiscountedPrice(discountedPrice);
+        response.setActualPrice(actualPrice);
     }
 
     private BigDecimal buildDiscountedPrice(Book book, String promotionCode) {
@@ -97,8 +104,9 @@ public class BookServiceImpl implements BookService {
 
     private BigDecimal applyPromotion(Book book, Promotion promotion) {
         if(promotion != null && promotion.getType().equals(book.getType())){
-            return BigDecimal.valueOf(promotion.getDiscount())
+           BigDecimal discountedPrice =  BigDecimal.valueOf(promotion.getDiscount())
                     .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).multiply(book.getPrice());
+           return book.getPrice().subtract(discountedPrice);
         } else
             return book.getPrice();
     }

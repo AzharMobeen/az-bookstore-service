@@ -13,6 +13,7 @@ import lombok.Data;
 public class Promotion {
 
     private String promotionCode;
+    // Discount in percentage
     private Integer discount;
     private BookType type;
 }

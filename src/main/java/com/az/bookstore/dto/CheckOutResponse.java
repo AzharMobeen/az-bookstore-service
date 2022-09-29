@@ -13,5 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CheckOutResponse {
 
-    private BigDecimal totalPrice;
+    private BigDecimal discountedPrice;
+    private BigDecimal actualPrice;
 }
