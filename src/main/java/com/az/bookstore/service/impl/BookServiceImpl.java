@@ -5,7 +5,7 @@ import com.az.bookstore.entity.Book;
 import com.az.bookstore.exception.CustomRuntimeException;
 import com.az.bookstore.repository.BookRepository;
 import com.az.bookstore.service.BookService;
-import com.az.bookstore.util.PromotionUtil;
+import com.az.bookstore.service.PromotionIntegrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +29,7 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final PromotionIntegrationService promotionIntegrationService;
 
     @Override
     public AddBookResponse addBook(AddBookRequest request) {
@@ -91,7 +92,7 @@ public class BookServiceImpl implements BookService {
 
         Promotion promotion = null;
         if(StringUtils.hasText(promotionCode)){
-            promotion = PromotionUtil.fetchPromotionByPromotionCode(promotionCode);
+            promotion = promotionIntegrationService.fetchPromotionByPromotionCode(promotionCode);
         }
         return applyPromotion(book, promotion);
     }

@@ -1,22 +1,25 @@
-package com.az.bookstore.util;
+package com.az.bookstore.service.impl;
 
 import com.az.bookstore.dto.BookType;
 import com.az.bookstore.dto.Promotion;
 import com.az.bookstore.exception.CustomRuntimeException;
-import lombok.experimental.UtilityClass;
+import com.az.bookstore.service.PromotionIntegrationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.CollectionUtils;
-
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Azhar Mobeen
- * @since 28/09/2022
+ * @since 29/09/2022
  */
 
-@UtilityClass
-public class PromotionUtil {
+@Slf4j
+@Service
+public class PromotionIntegrationServiceImpl implements PromotionIntegrationService {
+
+    // Ideally we should have Promotion Microservice which will deal all the promotion related business-logic.
 
     private static final List<Promotion> promotionList = new ArrayList<>();
     static {
@@ -33,13 +36,14 @@ public class PromotionUtil {
         promotionList.add(promotion2);
     }
 
-    public static Promotion fetchPromotionByPromotionCode(String promotionCode) {
-        if(CollectionUtils.isEmpty(promotionList))
-            System.out.println("It's empty");
-        Promotion response = promotionList.stream().filter(promotion -> promotion.getPromotionCode().equals(promotionCode))
+    @Override
+    public Promotion fetchPromotionByPromotionCode(String promotionCode) {
+        log.info("fetchPromotionByPromotionCode called for promotionCode {}", promotionCode);
+        Promotion response = promotionList.stream()
+                .filter(promotion -> promotion.getPromotionCode().equals(promotionCode))
                 .findFirst().orElseThrow(() -> new CustomRuntimeException("Invalid PromotionCode",
                         "Provide PromotionCod is invalid", HttpStatus.BAD_REQUEST));
-
+        log.info(" response {}", response);
         return response;
     }
 }
