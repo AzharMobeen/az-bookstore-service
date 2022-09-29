@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
     private final PromotionIntegrationService promotionIntegrationService;
 
     @Override
-    public AddBookResponse addBook(AddBookRequest request) {
+    public AddBookResponse addBook(AddBookRequest request, String apiKey) {
         log.info("addBook method called with request {}", request);
         Book book = new Book();
         BeanUtils.copyProperties(request.getBookDTO(), book);
@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public UpdateBookResponse updateBook(UpdateBookRequest request) {
+    public UpdateBookResponse updateBook(UpdateBookRequest request, String apiKey) {
         log.info("updateBook method called with request {}", request);
         Book book = fetchBookByBookId(request.getBookId());
         BeanUtils.copyProperties(request.getBookDTO(), book);
@@ -56,13 +56,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book searchBookById(Long bookId) {
+    public Book searchBookById(Long bookId, String apiKey) {
         log.info("searchBookById method called with bookId {}", bookId);
         return fetchBookByBookId(bookId);
     }
 
     @Override
-    public boolean deleteBookById(Long bookId) {
+    public boolean deleteBookById(Long bookId, String apiKey) {
         log.info("deleteBookById method called with bookId {}", bookId);
         Book book = fetchBookByBookId(bookId);
         bookRepository.delete(book);
@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public CheckOutResponse checkOutBooks(CheckOutRequest request) {
+    public CheckOutResponse checkOutBooks(CheckOutRequest request, String apiKey) {
         log.info("checkOutBooks method called with request {}", request);
         List<Book> bookList = fetchBooksByBookIds(request);
         CheckOutResponse response = new CheckOutResponse();

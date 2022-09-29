@@ -15,7 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import static com.az.bookstore.constant.Constants.API_ACCESS_KEY;
 
 /**
  * @author Azhar Mobeen
@@ -50,8 +53,9 @@ public class BookController {
     })
     @Operation(summary = "This API is to add books into store.")
     @PostMapping
-    public AddBookResponse addBook(@RequestBody @Valid AddBookRequest request) {
-        return bookService.addBook(request);
+    public AddBookResponse addBook(@RequestHeader(name = API_ACCESS_KEY) @NotEmpty String apiKey,
+                                   @RequestBody @Valid AddBookRequest request) {
+        return bookService.addBook(request, apiKey);
     }
 
     @ApiResponses(value = {
@@ -80,9 +84,10 @@ public class BookController {
     })
     @Operation(summary = "This API is to update book details.")
     @PutMapping
-    public UpdateBookResponse updateBook(@RequestBody @Valid UpdateBookRequest request) {
+    public UpdateBookResponse updateBook(@RequestHeader(name = API_ACCESS_KEY) @NotEmpty String apiKey,
+                                         @RequestBody @Valid UpdateBookRequest request) {
 
-        return bookService.updateBook(request);
+        return bookService.updateBook(request, apiKey);
     }
 
     @ApiResponses(value = {
@@ -106,8 +111,9 @@ public class BookController {
     })
     @Operation(summary = "This API is to search book by bookId.")
     @GetMapping("/{bookId}")
-    public Book findBook(@PathVariable @NotNull(message = "Please provide bookId") Long bookId) {
-        return bookService.searchBookById(bookId);
+    public Book findBook(@RequestHeader(name = API_ACCESS_KEY) @NotEmpty String apiKey,
+                         @PathVariable @NotNull(message = "Please provide bookId") Long bookId) {
+        return bookService.searchBookById(bookId, apiKey);
     }
 
     @ApiResponses(value = {
@@ -131,8 +137,9 @@ public class BookController {
     })
     @Operation(summary = "This API is to delete book by bookId.")
     @DeleteMapping("{bookId}")
-    public boolean deleteBookById(@PathVariable @NotNull( message = "Please provide bookId") long bookId) {
-        return bookService.deleteBookById(bookId);
+    public boolean deleteBookById(@RequestHeader(name = API_ACCESS_KEY) @NotEmpty String apiKey,
+                                  @PathVariable @NotNull( message = "Please provide bookId") long bookId) {
+        return bookService.deleteBookById(bookId, apiKey);
     }
 
     @ApiResponses(value = {
@@ -156,7 +163,8 @@ public class BookController {
     })
     @Operation(summary = "This API is provide total price.")
     @PostMapping("/checkout")
-    public CheckOutResponse checkOutBooks(@Valid @RequestBody CheckOutRequest request) {
-        return bookService.checkOutBooks(request);
+    public CheckOutResponse checkOutBooks(@RequestHeader(name = API_ACCESS_KEY) @NotEmpty String apiKey,
+                                          @Valid @RequestBody CheckOutRequest request) {
+        return bookService.checkOutBooks(request, apiKey);
     }
 }

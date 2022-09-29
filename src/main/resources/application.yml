@@ -14,3 +14,5 @@ spring:
   sql:
     init:
       platform: h2
+
+accessToken: $2a$12$W/lAX/yFLzh7DDxGIPm9vup4E.uB0h1l.B1aJjQzwwkdoM/FTO2vK
