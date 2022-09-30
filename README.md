@@ -1,6 +1,6 @@
 ### Az-BookStore-Service
 
-#### Requirements:
+> Requirements:
 * REST API for an online bookstore, where the user can perform the following operations:
   - CRUD operations on Books.
   - Checkout operation for single or multiple books which will return the total payable amount. 
@@ -19,6 +19,7 @@
 * Ability to run the application on a docker container
 * Please upload the source code into github
 
+> Solution:
 #### Technologies:
 - Java8
 - Spring Boot
@@ -69,13 +70,14 @@ docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000
 
 
 #### Plus points:
-* I have used `HeaderInterceptor` to make API secure.
+* `Security`: I have used `HeaderInterceptor` to make API secure. In each API we have to pass `API_ACCESS_KEY` in header.
 * Proper Exception handling and giving `ErrorMessage` object in the response.
 * Code Coverage `100%`
 * Vulnerability free and Clean code. Please have a look on `Sonar Qube` reports 
 * TDD reporting with the help of `JaCoCo`.
 * `SonarQube` plugin also configured for Code quality, coverage , vulnerabilities and many more.
 * `Docker` Image, so we can easily build, ship and deploy.
+* `Kubernetes` deployment and service files also added in `./k8s` folder.
 * `Swagger-UI`, Spring doc open API configured so that we can use swagger-UI for testing purpose.
 
 #### Useful screenshot:
