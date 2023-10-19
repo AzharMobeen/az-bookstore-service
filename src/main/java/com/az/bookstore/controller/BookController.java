@@ -27,7 +27,8 @@ import static com.az.bookstore.constant.Constants.API_ACCESS_KEY;
 
 @Validated
 @RequiredArgsConstructor
-@RestController(Constants.BOOK_URI)
+@RequestMapping(Constants.BOOK_URI)
+@RestController
 public class BookController {
 
     private final BookService bookService;
